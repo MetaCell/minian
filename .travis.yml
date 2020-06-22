@@ -33,8 +33,7 @@ install:
   - conda install -c conda-forge -y jupyterlab
   - jupyter labextension install @pyviz/jupyterlab_pyviz
   - conda env export
-  - conda install -y pytest-cov
-  - conda install -c anaconda -y black
+  - pip install codecov
 
 script:
   # The test/check scripts go here
