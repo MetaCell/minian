@@ -496,7 +496,7 @@ def update_temporal(Y,
     if compute:
         g = g.persist()
     print("updating isolated temporal components")
-    if use_spatial == 'full':
+    if use_spatial:
         result_iso = xr.apply_ufunc(
             update_temporal_cvxpy,
             Y_flt.chunk(dict(spatial=-1, frame=-1)),
