@@ -33,7 +33,10 @@ install:
   - conda install -c conda-forge -y jupyterlab
   - jupyter labextension install @pyviz/jupyterlab_pyviz
   - conda env export
-  - pip install codecov
+  - conda install -y pytest
+  - conda install -y pytest-cov
+  - conda install -c anaconda -y black
+  - pip install opencv-python-headless
 
 script:
   # The test/check scripts go here
