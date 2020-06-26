@@ -50,5 +50,4 @@ script:
   # - travis_fold end "Jupyter notebook pipeline"
 
 after_success:
-  - echo conda install codecov
-  - echo codecov
+  - bash <(curl -s https://codecov.io/bash)
