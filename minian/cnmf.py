@@ -18,6 +18,8 @@ from sklearn.linear_model import LassoLars
 from sklearn.utils import parallel_backend
 from statsmodels.tsa.stattools import acovf
 
+from .utilities import rechunk_like
+
 
 def get_noise_fft(varr, noise_range=(0.25, 0.5), noise_method="logmexp"):
     """[summary]
@@ -880,7 +882,9 @@ def update_temporal_cvxpy(y, g, sn, A=None, bseg=None, **kwargs):
     noise = cvx.vstack([cvx.norm(noise[i, :], 2) for i in range(noise.shape[0])])
     # construct constraints
     cons = []
-    cons.append(b >= np.min(y, axis=-1))  # baseline larger than minimum
+    cons.append(
+        b >= np.broadcast_to(np.min(y, axis=-1).reshape((-1, 1)), y.shape)
+    )  # baseline larger than minimum
     cons.append(c0 >= 0)  # initial fluorescence larger than 0
     cons.append(s >= 0)  # spike train non-negativity
     # noise constraints
