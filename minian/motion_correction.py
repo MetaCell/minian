@@ -6,17 +6,18 @@ from dask import delayed
 
 
 def estimate_shifts(varr, max_sh, dim="frame", npart=3, local=False):
-    """[summary]
+    """
+    Estimate the frame shifts
 
     Args:
-        varr ([type]): [description]
-        max_sh ([type]): [description]
-        dim (str, optional): [description]. Defaults to "frame".
-        npart (int, optional): [description]. Defaults to 3.
-        local (bool, optional): [description]. Defaults to False.
+        varr (xarray.DataArray): xarray.DataArray a labeled 3-d array representation of the videos with dimensions: frame, height and width.
+        max_sh (integer): maximum shift
+        dim (str, optional): name of the z-dimension, defaults to "frame".
+        npart (integer, optional): [description]. Defaults to 3.
+        local (boolean, optional): [description]. Defaults to False.
 
     Returns:
-        [type]: [description]
+        xarray.DataArray: the estimated shifts
     """
     varr = varr.chunk({"height": -1, "width": -1})
     vmax, sh = xr.apply_ufunc(
@@ -31,16 +32,18 @@ def estimate_shifts(varr, max_sh, dim="frame", npart=3, local=False):
 
 
 def est_sh_part(varr, max_sh, npart, local):
-    """[summary]
+    """
+    Estimate the shift per frame
 
     Args:
-        varr ([type]): [description]
-        max_sh ([type]): [description]
-        npart ([type]): [description]
-        local ([type]): [description]
+        varr (xarray.DataArray): xarray.DataArray a labeled 3-d array representation of the videos with dimensions: frame, height and width.
+        max_sh (integer): maximum shift
+        npart (integer): [description].
+        local (boolean): [description].
 
     Returns:
-        [type]: [description]
+        xarray.DataArray: the max shift per frame
+        xarray.DataArray: the shift per frame
     """
     if varr.shape[0] <= 1:
         return varr.squeeze(), np.array([[0, 0]])
@@ -78,14 +81,16 @@ def est_sh_part(varr, max_sh, npart, local):
 
 
 def match_temp(src, dst, max_sh, local, subpixel=False):
-    """[summary]
+    """
+    Match template.
+    For more information on template matching: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_template_matching/py_template_matching.html
 
     Args:
-        src ([type]): [description]
-        dst ([type]): [description]
-        max_sh ([type]): [description]
-        local ([type]): [description]
-        subpixel (bool, optional): [description]. Defaults to False.
+        src (array): source frame
+        dst (array): template 
+        max_sh (integer): maximum shift
+        local (boolean): 
+        subpixel (boolean, optional): [description]. Defaults to False.
 
     Returns:
         [type]: [description]
@@ -122,14 +127,15 @@ def match_temp(src, dst, max_sh, local, subpixel=False):
 
 
 def apply_shifts(varr, shifts):
-    """[summary]
+    """
+    Apply the shifts to the input frames
 
     Args:
-        varr ([type]): [description]
-        shifts ([type]): [description]
+        varr (xarray.DataArray): xarray.DataArray a labeled 3-d array representation of the videos with dimensions: frame, height and width.
+        shifts (xarray.DataArray): xarray.DataArray a labeled 3-d array representation of the shifts with dimensions: frame, height and width.
 
     Returns:
-        [type]: [description]
+        (xarray.DataArray): xarray.DataArray of the shifted input frames (varr)
     """
     sh_dim = shifts.coords["variable"].values.tolist()
     varr_sh = xr.apply_ufunc(
@@ -146,11 +152,12 @@ def apply_shifts(varr, shifts):
 
 
 def shift_perframe(fm, sh):
-    """[summary]
+    """
+    Determine the shift per frame
 
     Args:
-        fm ([type]): [description]
-        sh ([type]): [description]
+        fm (array): array with the pixels of the frame
+        sh (array): (x,y) shift
 
     Returns:
         [type]: [description]
