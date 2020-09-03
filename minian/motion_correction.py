@@ -93,7 +93,7 @@ def match_temp(src, dst, max_sh, local, subpixel=False):
         subpixel (boolean, optional): [description]. Defaults to False.
 
     Returns:
-        [type]: [description]
+        [array]: array (x,y) of the shift (match)
     """
     src = np.pad(src, max_sh)
     cor = cv2.matchTemplate(
