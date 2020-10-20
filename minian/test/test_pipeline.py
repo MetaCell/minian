@@ -242,7 +242,7 @@ def test_motion_correction():
     
     # Check 'minian_mc.mp4' was written to folder, with a size bigger than 2 mb
     assert os.path.exists(os.path.join(dpath, "minian_mc.mp4")) == True, "minian_mc.mp4 was written to local folder"
-    assert os.path.getsize(os.path.join(dpath, "minian_mc.mp4"))/(1024*1024) > 2, "minian_mc.mp4 was created and is at least 2 MB"
+    assert os.path.getsize(os.path.join(dpath, "minian_mc.mp4")) == 2476013 # , "minian_mc.mp4 was created and is 2476013 bytes"
     
     probe = ffmpeg.probe(os.path.join(dpath, "minian_mc.mp4"))
     video_streams = [stream for stream in probe["streams"] if stream["codec_type"] == "video"]
@@ -276,7 +276,7 @@ def test_initialization():
     seeds = seeds_init(Y, **param_seeds_init)
 
     # Test method 'seeds_init' return array with correct amount of elements
-    assert len(seeds) == 688, "Original 'seeds' array contains 688 elements"
+    assert len(seeds) == 688 #, "Original 'seeds' array contains 688 elements"
     
     hv.output(size=output_size)
     vis_seeds = visualize_seeds(max_proj, seeds)
@@ -321,7 +321,7 @@ def test_initialization():
     vis_seeds = visualize_seeds(max_proj, seeds, 'mask_pnr')
     
     # If visualize_seeds step succeeded, array 'seeds' will have a new column named 'mask_pnr'
-    assert len(seeds["mask_pnr"]) == 688, "Seeds array added new column 'mask_pnr' with 688 elements"
+    assert len(seeds["mask_pnr"]) == 688 #, "Seeds array added new column 'mask_pnr' with 688 elements"
     
     seeds = ks_refine(Y_flt, seeds[seeds['mask_pnr']], **param_ks_refine)
     
@@ -361,7 +361,7 @@ def test_initialization():
                       backend=param_save_minian['backend'])
     
     assert (
-       test_data_varr_ref['A'].all() == minian['A_init'].all()
+       test_data_varr_ref['A'].all() == A.all()
     ), "Test Fail: arrays are not the same";
     
 # # CNMF
@@ -378,7 +378,7 @@ def test_cnmf():
     sn_spatial = get_noise_fft(Y, **param_get_noise).persist()
 
     if interactive:
-        units = np.random.choice(A_init.coords['unit_id'], 10, replace=False)
+        units = np.random.choice(A_init.coords['unit_id'], 2, replace=False)
         units.sort()
         A_sub = A_init.sel(unit_id=units).persist()
         C_sub = C_init.sel(unit_id=units).persist()

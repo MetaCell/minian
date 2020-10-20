@@ -5,7 +5,7 @@ import holoviews as hv
 from ..utilities import load_videos
 from ..preprocessing import denoise, remove_background, stripe_correction
 
-dpath = "./demo_movies"
+dpath = "./minian/test/test_movie"
 
 param_load_videos = {
     "pattern": "msCam[0-9].avi",
