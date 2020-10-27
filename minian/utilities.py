@@ -186,18 +186,10 @@ def load_avi_perframe(fname, fid):
         return np.zeros((h, w))
 
 
-def open_minian(dpath, post_process=None, return_dict=False):
-    dslist = [
-        xr.open_zarr(pjoin(dpath, d)) for d in listdir(dpath) if isdir(pjoin(dpath, d))
-    ]
-    if return_dict:
-        dslist = [list(d.values())[0] for d in dslist]
-        ds = {d.name: d for d in dslist}
-    else:
-        ds = xr.merge(dslist, compat="no_conflicts")
-    if (not return_dict) and post_process:
-        ds = post_process(ds, dpath)
-    return ds
+def open_minian(dpath, var_name, return_dict=False):
+    dpath = os.path.normpath(dpath)
+    fp = os.path.join(dpath, var_name + ".zarr")
+    return xr.open_zarr(fp)[var_name]
 
 
 def open_minian_mf(
@@ -313,7 +305,7 @@ def save_minian(
         for f in os.listdir(dst_path):
             os.rename(os.path.join(dst_path, f), os.path.join(arr_path, f))
         os.rmdir(dst_path)
-    return xr.open_zarr(fp)[var.name]
+    return open_minian(dpath, var.name)
 
 
 def xrconcat_recursive(var, dims):
