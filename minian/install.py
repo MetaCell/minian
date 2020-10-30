@@ -2,6 +2,8 @@ import os
 import requests
 
 PIPELINE_FILES = ('pipeline.ipynb','pipeline_noted.ipynb','cross-registration.ipynb')
+IMAGE_FILES = ('img/first_tem_drop_v2.PNG', 'img/folder_structure.png', 'img/pnr_param_v2.png'
+              ,'img/sparse_panel_spatial_update.PNG', 'img/first_tem_drop_v2.PNG', 'img/first_tem_param.png')
 DEMO_FILES = [f'demo_movies/msCam{i}.avi' for i in range(1,11)]
 
 def _ask_branch() -> str:
@@ -34,4 +36,6 @@ def pipeline():
   branch = _ask_branch()
   for file in PIPELINE_FILES:
     _get_file(file, branch)
-
+  os.mkdir('img')
+  for file in IMAGE_FILES:
+    _get_file(file, branch)

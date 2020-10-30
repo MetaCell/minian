@@ -10,6 +10,13 @@ MiniAn is an analysis pipeline and visualization tool inspired by both [CaImAn](
 
 # Quick Start Guide
 
+## Option #1: conda
+1. Create a new conda env: `conda create --name minian`
+1. Install MiniAn: `conda install -c conda-forge minian`
+1. Install the pipeline notebooks: `minian-install --notebooks` for more information about minian-install type `minian-install --help`
+1. Optional install the demo movies: `minian-install --demo`
+1. Fire up jupyter: `jupyter notebook` and open the notebook "pipeline_noted.ipynb"
+
 ## Option #2: virtual env
 1. Create a python virtual env: `python3 -m venv venv`
 1. Activate the virtual enviornment you created during minian installation: `source venv/bin/activate`
@@ -26,8 +33,8 @@ MiniAn is an analysis pipeline and visualization tool inspired by both [CaImAn](
     
 
 1. Install the MiniAn package: `pip install MiniAn`
-1. Install the pipeline notebooks: `minian-install-pipeline`
-1. Optional install the demo movies: `minian-install-demo`
+1. Install the pipeline notebooks: `minian-install --notebooks` for more information about minian-install type `minian-install --help`
+1. Optional install the demo movies: `minian-install --demo`
 1. Fire up jupyter: `jupyter notebook` and open the notebook "pipeline_noted.ipynb"
 
 # Quick Start Guide for build and use from source
