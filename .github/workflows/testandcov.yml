@@ -37,13 +37,13 @@ jobs:
     - name: Conda info envs
       run: |
         $CONDA/bin/conda info --envs
-    - name: Cache Python packages
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-python-packages
-      with:
-        path: $CONDA
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
+    # - name: Cache Python packages
+    #   uses: actions/cache@v2
+    #   env:
+    #     cache-name: cache-python-packages
+    #   with:
+    #     path: $CONDA
+    #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
     - name: Install dependencies
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
