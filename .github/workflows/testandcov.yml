@@ -32,34 +32,12 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Cache /etc
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-etc
-      with:
-        path: /etc
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
-    - name: Cache /var
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-var
-      with:
-        path: /var
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
-    - name: Cache /bin
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-bin
-      with:
-        path: /var/bin
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
-    - name: Cache /usr
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-usr
-      with:
-        path: /usr
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
+    - name: Cleanup pre-installed tools
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /opt/ghc
+        sudo rm -rf "/usr/local/share/boost"
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
     - name: Update ubuntu-latest and install ffmpeg
       run: |
         sudo apt-get update
