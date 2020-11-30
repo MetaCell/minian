@@ -32,20 +32,38 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Cache /etc
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-etc
+      with:
+        path: /etc
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
+    - name: Cache /var
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-var
+      with:
+        path: /var
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
+    - name: Cache /bin
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-bin
+      with:
+        path: /var/bin
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
+    - name: Cache /usr
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-usr
+      with:
+        path: /usr
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
     - name: Update ubuntu-latest and install ffmpeg
       run: |
         sudo apt-get update
         sudo apt-get install ffmpeg
-    - name: Conda info envs
-      run: |
-        $CONDA/bin/conda info --envs
-    - name: Cache Python packages
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-python-packages
-      with:
-        path: $CONDA
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('environment.yml') }}      
     - name: Install dependencies
       run: |
         # $CONDA is an environment variable pointing to the root of the miniconda directory
