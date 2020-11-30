@@ -299,7 +299,7 @@ def test_pipeline():
             os.path.getsize(os.path.join(dpath, "minian_mc.mp4"))
             - os.path.getsize(os.path.join(dpath_fixture, "minian_mc.mp4"))
         )
-        < 5000
+        < 110000
     )
 
     probe = ffmpeg.probe(os.path.join(dpath, "minian_mc.mp4"))
